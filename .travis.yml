@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - '0.10'
+before_install:
+  - currentfolder=${PWD##*/}
+  - if [ "$currentfolder" != 'generator-aip-science-app' ]; then cd .. && eval "mv $currentfolder generator-aip-science-app" && cd generator-aip-science-app; fi
+
