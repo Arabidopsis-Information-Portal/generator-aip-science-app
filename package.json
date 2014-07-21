@@ -1,7 +1,7 @@
 {
   "name": "generator-aip-science-app",
-  "version": "0.1.0",
-  "description": "Yeoman generator",
+  "version": "0.1.1",
+  "description": "A generator for Science Apps for the Arabidopsis Information Portal",
   "license": "MIT",
   "main": "app/index.js",
   "repository": "mrhanlon/generator-aip-science-app",
@@ -11,7 +11,8 @@
     "url": "https://github.com/mrhanlon"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.10.0",
+    "npm": ">=1.2.10"
   },
   "scripts": {
     "test": "mocha"
@@ -20,17 +21,19 @@
     "app"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "bioinformatics",
+    "app"
   ],
   "dependencies": {
     "yeoman-generator": "~0.16.0",
     "chalk": "~0.4.0",
-    "yosay": "^0.1.0"
+    "yosay": "^0.2.0"
   },
   "devDependencies": {
     "mocha": "*"
   },
   "peerDependencies": {
-    "yo": ">=1.0.0"
+    "yo": ">=1.2.0"
   }
 }
