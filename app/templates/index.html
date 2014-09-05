@@ -1,6 +1,9 @@
 <!doctype html>
 <html>
 <head>
+  <title><%= appname %> | AIP Science Apps | Test Runner</title>
+  <link rel="shortcut icon" href="https://www.araport.org/sites/all/themes/custom/araport-theme/favicon.ico">
+
   <!-- jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
@@ -11,17 +14,40 @@
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+  <!-- swagger-js -->
+  <script type="text/javascript" src="/bower_components/swagger-js/lib/shred.bundle.js"></script>
+  <script type="text/javascript" src="/bower_components/swagger-js/lib/swagger.js"></script>
+
   <style type="text/css">
   body {
     padding-top: 60px;
   }
   </style>
+
+  <!-- application styles -->
+  <link rel="stylesheet" type="text/css" href="/app/styles/app.css">
 </head>
 <body>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">AIP</a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <img src="https://www.araport.org/sites/all/themes/custom/araport-theme/images/AIP-logo.svg" class="img-responsive" style="height: 42px; margin-top: -10px;">
+          <span class="sr-only">AIP</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="https://araport.org" target="_blank">Araport.org <i class="fa fa-external-link"></i></a></li>
+          <li><a href="https://api.araport.org" target="_blank">Araport API Store <i class="fa fa-external-link"></i></a></li>
+          <li><a href="http://agaveapi.co" target="_blank">Agave Documentation <i class="fa fa-external-link"></i></a></li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -32,8 +58,22 @@
     </div>
   </header>
 
-  <div class="container">
-    include "app/app.html"
+  <div class="api-credentials container">
+    include "/lib/api-client-auth.html"
+    <hr>
   </div>
+
+  <div class="aip-science-app container">
+    include "/app/app.html"
+  </div>
+
+  <!-- test runner code -->
+  <script src="/lib/Agave.js"></script>
+  <script src="/lib/test-runner.js"></script>
+
+  <!-- application code --><% if (includeBioJS) { %>
+  <script src="/bower_components/biojs/src/main/javascript/Biojs.js"></script><% } %><% if (includeCytoscape) { %>
+  <script src="/bower_components/cytoscape/dist/cytoscape.js"></script><% } %>
+  <script src="/app/scripts/app.js"></script>
 </body>
 </html>

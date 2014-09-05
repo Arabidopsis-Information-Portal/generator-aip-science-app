@@ -57,6 +57,10 @@ This will build your application and start a server on
 application source files for changes and automatically reload the browser when
 changes are saved.
 
+### Compatibility and Best Practices
+
+Coming soon!
+
 ### Including third party dependencies
 
 Coming soon!

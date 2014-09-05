@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   var config = {
-    appName: 'package',
+    appName: '<%= _.slugify(appname) %>',
     app: 'app',
     dist: 'dist'
   };
@@ -16,26 +16,36 @@ module.exports = function(grunt) {
     config: config,
 
     watch: {
+      bower: {
+        files: ['bower.json'],
+        tasks: ['bowerInstall']
+      },
       gruntfile: {
         files: 'Gruntfile.js',
         tasks: ['jshint']
       },
-      scripts: {
-        files: ['<%= config.app %>/scripts/{,*/}*.js'],
+      js: {
+        files: ['<%%= config.app %>/scripts/{,*/}*.js'],
         tasks: ['jshint'],
         options: {
           livereload: true
         }
       },
+      jstest: {
+        files: ['test/spec/{,*/}*.js'],
+        tasks: ['test:watch']
+      },
       livereload: {
         files: [
           'index.html',
-          '<%= config.app %>/{,*/}*.html',
-          '<%= config.app %>/images/{,*/}*'
+          'lib/*.*',
+          '<%%= config.app %>/{,*/}*.html',
+          '<%%= config.app %>/images/{,*/}*',
+          '.tmp/styles/{,*/}*.css'
         ],
         tasks: ['includes'],
         options: {
-          livereload: '<%= connect.options.livereload %>'
+          livereload: '<%%= connect.options.livereload %>'
         }
       }
     },
@@ -54,7 +64,9 @@ module.exports = function(grunt) {
           middleware: function(connect) {
             return [
               connect.static('.tmp'),
-              connect.static(config.app)
+              connect().use('/lib', connect.static('lib')),
+              connect().use('/bower_components', connect.static('./bower_components')),
+              connect().use('/app', connect.static(config.app))
             ];
           }
         }
@@ -64,7 +76,12 @@ module.exports = function(grunt) {
     // Empties folders to start fresh
     clean: {
       server: '.tmp',
-      dist: 'dist'
+      dist: {
+        files: [{
+          dot: true,
+          src: ['.tmp', '<%= config.dist %>/*', '!<%= config.dist %>/.git*']
+        }]
+      }
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
@@ -75,6 +92,7 @@ module.exports = function(grunt) {
       },
       all: [
         'Gruntfile.js',
+        'lib/*.js',
         '<%= config.app %>/scripts/{,*/}*.js',
         '!<%= config.app %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
@@ -93,12 +111,35 @@ module.exports = function(grunt) {
       }
     },
 
+    // Add vendor prefixed styles
+    autoprefixer: {
+      options: {
+        browsers: ['last 1 version']
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '.tmp/styles/',
+          src: '{,*/}*.css',
+          dest: '.tmp/styles/'
+        }]
+      }
+    },
+
+    // Automatically inject Bower components into the HTML file
+    bowerInstall: {
+      app: {
+        src: ['<%= config.app %>/index.html'],
+        exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
+      }
+    },
+
     copy: {
       libraries: {
         expand: true,
-        cwd: '<%= config.app %>/vendor',
+        cwd: '<%%= config.app %>/vendor',
         src: '**',
-        dest: '.tmp/sites/all/libraries/<%= config.appName %>/'
+        dest: '.tmp/sites/all/libraries/<%%= config.appName %>/'
       }
     },
 
