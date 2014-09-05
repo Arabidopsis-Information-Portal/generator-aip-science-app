@@ -1,0 +1,79 @@
+<div class="pull-right">
+  <button type="button" class="btn btn-link" name="toggleTokenForm"><i class="fa fa-key"></i></button>
+</div>
+
+<div class="token-form">
+  <h4>Get an API token</h4>
+  <p>
+    In order to use any APIs secured by Agave, you will need to get an API
+    token. If you have already created an API client, please enter the key
+    and secret below, as well as your API username and password. Then click
+    &quot;Get Token&quot;.
+  </p>
+  <form method="post" name="agaveApiTokenForm">
+    <div class="form-group">
+      <input name="consumerKey" type="text" class="form-control" placeholder="Consumer Key">
+    </div>
+
+    <div class="form-group">
+      <input name="consumerSecret" type="text" class="form-control" placeholder="Consumer Secret">
+    </div>
+
+    <div class="form-group">
+      <input name="username" type="text" class="form-control" placeholder="Username">
+    </div>
+
+    <div class="form-group">
+      <input name="password" type="password" class="form-control" placeholder="Password">
+    </div>
+
+    <input type="hidden" name="grant_type" value="password">
+    <input type="hidden" name="scope" value="PRODUCTION">
+
+    <div class="form-actions">
+      <button type="submit" name="agaveApiTokenFormSubmit" class="btn btn-success">Get Token</button>
+      <button type="button" name="agaveApiTokenFormClear" class="btn btn-danger">Clear Credentials</button>
+      <button type="button" name="createApiClient" class="btn btn-link">Don't have an API Client? Click here!</button>
+    </div>
+  </form>
+</div>
+
+<div class="create-client modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4>Create API Client Credentials</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          You will need an API Client to authenticate and use the Agave APIs. If
+          you don't already have an API Client, you can generate one now. Please
+          provide your Araport username/password to create a new API client.
+        </p>
+        <form name="createApiClientForm">
+          <div class="form-group">
+            <label class="sr-only">Client App Name</label>
+            <input class="form-control" name="appName" type="text" placeholder="App name">
+          </div>
+            <div class="form-group">
+              <label class="sr-only">Username</label>
+              <input class="form-control" name="username" type="text" placeholder="Username">
+            </div>
+          <div class="form-group">
+            <label class="sr-only">Password</label>
+            <input class="form-control" name="password" type="password" placeholder="Password">
+          </div>
+
+          <button type="submit" class="btn btn-primary">Create Client</button>
+          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h4>API token</h4>
+  <div class="current-token"><p><span class="label label-danger">invalid</span></p></div>
+</div>

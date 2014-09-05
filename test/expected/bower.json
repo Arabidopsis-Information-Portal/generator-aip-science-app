@@ -1,0 +1,11 @@
+{
+  "name": "temp",
+  "private": true,
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "bootstrap": "~3.1.1",
+    "fontawesome": "~4.1.0",
+    "swagger-js": "wordnik/swagger-js#~2.0.38",
+    "biojs": "biojs/biojs#v1.0"
+  }
+}
