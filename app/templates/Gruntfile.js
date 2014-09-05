@@ -59,6 +59,19 @@ module.exports = function(grunt) {
         // Change this to '0.0.0.0' to access the server from outside
         hostname: 'localhost'
       },
+      dist: {
+        options: {
+          livereload: false,
+          middleware: function(connect) {
+            return [
+              connect.static('.tmp'),
+              connect().use('/lib', connect.static('lib')),
+              connect().use('/bower_components', connect.static('./bower_components')),
+              connect().use('/app', connect.static(config.app))
+            ];
+          }
+        }
+      },
       livereload: {
         options: {
           middleware: function(connect) {
@@ -158,7 +171,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
+      return grunt.task.run([
+        'clean:server',
+        'includes',
+        'copy',
+        'connect:dist:keepalive'
+      ]);
     }
 
     grunt.task.run([
