@@ -67,11 +67,6 @@ var ScienceAppGenerator = yeoman.generators.Base.extend({
       dependencies: {}
     };
 
-    /* AIP Science App Environment */
-    bower.dependencies.jquery = "~1.11.1";
-    bower.dependencies.bootstrap = '~3.1.1';
-    bower.dependencies.fontawesome = '~4.1.0';
-
     /* for the Agave API */
     bower.dependencies['swagger-js'] = 'wordnik/swagger-js#~2.0.38'
 
