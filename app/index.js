@@ -67,9 +67,6 @@ var ScienceAppGenerator = yeoman.generators.Base.extend({
       dependencies: {}
     };
 
-    /* for the Agave API */
-    bower.dependencies['swagger-js'] = 'wordnik/swagger-js#~2.0.38'
-
     if (this.includeBioJS) {
       bower.dependencies['biojs'] = "biojs/biojs#v1.0";
     }
