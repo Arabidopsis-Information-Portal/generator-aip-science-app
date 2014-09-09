@@ -1,13 +1,13 @@
 # AIP Science App Generator [![Build Status](https://secure.travis-ci.org/mrhanlon/generator-aip-science-app.png?branch=master)](https://travis-ci.org/mrhanlon/generator-aip-science-app)
 
 A [Yeoman](http://yeoman.io) generator for building Science Applications for
-the [Arabidopsis Information Portal](https://www.araport.org).
+the [Arabidopsis Information Portal][aip]
 
 ![Arabidopsis Information Portal](https://www.araport.org/sites/all/themes/custom/araport-theme/images/AIP-logo.svg)
 
 ## Getting Started
 
-To use the generator you'll need to have [Node.js and npm](http://www.nodejs.org)
+To use the generator you'll need to have [Node.js and npm][node]
 installed. Install Yeoman and the app generator from npm using:
 
 ```bash
@@ -57,13 +57,67 @@ This will build your application and start a server on
 application source files for changes and automatically reload the browser when
 changes are saved.
 
+### Adding third-party libraries
+
+Third-party libraries are managed by [Bower][bower]. Due to how we build AIP
+science apps, libraries must use a valid bower.json and **must have `main`
+defined in the bower.json**. This allows the apps environment to determine
+dependencies at runtime.
+
+You can search for bower packages [online](http://bower.io/search/) or using
+the command line:
+
+```bash
+$ bower search <keyword>
+```
+
+To add a library:
+
+```bash
+$ bower install <package name> --save
+```
+
+Make sure that you include the `--save` so it's added to your application's
+own bower.json. Otherwise, the build tools won't know it's been added!
+
+To remove a library:
+
+```base
+$ bower uninstall <package name> --save
+```
+
+#### What about libraries not in the Bower registry?
+
+Okay, okay, we know that not every library out there is going to have a bower
+package. Not to worry, there is still hope!
+
+For libraries that don't have a bower package (or have an incomplete one) there
+are a couple of options:
+
+1. If the bower package exists but `main` is missing, the best thing to do is
+   probably to contact the maintainer and ask them to fix it. Submit a pull
+   request!
+
+2. Alternatively, you can fork the repo and add the `main` definition yourself.
+
+3. Bower doesn't require that a bower package actually be registered. You can
+   use bower to include any library available from a Git endpoint, e.g., Github.
+   But you will still need a bower.json for the app build.
+
+4. Fork the repository to your own Git repo and create a bower.json!
+
+
 ### Compatibility and Best Practices
 
-Coming soon!
+#### HTML
 
-### Including third party dependencies
+1. Be careful is HTML IDs!
 
-Coming soon!
+#### JavaScript
+
+1. Use closures!
+
+More coming soon!
 
 ### Packaging for deployment
 
@@ -71,9 +125,14 @@ Coming soon!
 
 ### Other
 
-AIP Science Apps use [Grunt](http://gruntjs.com) for executing development tasks
-and [Bower](http://bower.io) for library and dependency management.
+AIP Science Apps use [Grunt][grunt] for executing development tasks
+and [Bower][bower] for library and dependency management.
 
 ## License
 
 MIT
+
+[aip]: https://www.araport.org
+[node]: http://www.nodejs.org
+[bower]: http://bower.io
+[grunt]: http://gruntjs.com
