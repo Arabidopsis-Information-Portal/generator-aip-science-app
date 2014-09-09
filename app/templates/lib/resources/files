@@ -10,7 +10,7 @@
                     "nickname": "downloadFromDefaultSystem",
                     "notes": "This will return the raw file from the user's default storage location.",
                     "produces": [
-      			        	"application/octet-stream"
+      			        	"*/*"
       			        ],
                     "parameters": [
                         {
@@ -131,7 +131,7 @@
                     "nickname": "download",
                     "notes": "This will return the raw file from the user's default storage location.",
                     "produces": [
-      			        	"application/octet-stream"
+      			        	"*/*"
       			        ],
       			        "parameters": [
                         {
