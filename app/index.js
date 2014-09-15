@@ -52,6 +52,10 @@ var ScienceAppGenerator = yeoman.generators.Base.extend({
     }.bind(this));
   },
 
+  readme: function() {
+    this.template('README.md');
+  },
+
   gruntfile: function () {
     this.template('Gruntfile.js');
   },
