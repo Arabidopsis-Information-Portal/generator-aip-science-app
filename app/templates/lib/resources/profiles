@@ -3,7 +3,7 @@
     "authorizations": ["oauth2"],
     "apis": [
         {
-            "description": "Retrieve the profile of the requesting user.",
+            "description": "Retrieves all profiles.",
             "operations": [
                 {
                     "method": "GET",
@@ -33,6 +33,38 @@
                 }
             ],
             "path": "/profiles/v2/"
+        },
+        {
+            "description": "Retrieve the profile of the requesting user.",
+            "operations": [
+                {
+                    "method": "GET",
+                    "nickname": "me",
+                    "notes": "",
+                    "parameters": [],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Raised if a user supplies an invalid username format"
+                        },
+                        {
+                            "code": 403,
+                            "message": "Failed to authenticate the user"
+                        },
+                        {
+                            "code": 404,
+                            "message": "The user profile cannot be found"
+                        },
+                        {
+                            "code": 500,
+                            "message": "The service was unable to query the profile database"
+                        }
+                    ],
+                    "summary": "Find authenticated user profile",
+                    "type": "SingleProfileResponse"
+                }
+            ],
+            "path": "/profiles/v2/me"
         },
         {
             "description": "Retrieve the profile of an API user by their exact username.",
@@ -70,7 +102,7 @@
                         }
                     ],
                     "summary": "Find api user profile by their api username",
-                    "type": "MultipleProfileResponse"
+                    "type": "SingleProfileResponse"
                 }
             ],
             "path": "/profiles/v2/{username}"
