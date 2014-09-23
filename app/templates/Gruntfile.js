@@ -93,7 +93,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           dot: true,
-          src: ['.tmp', '<%= config.dist %>/*', '!<%= config.dist %>/.git*']
+          src: ['.tmp', '<%%= config.dist %>/*', '!<%%= config.dist %>/.git*']
         }]
       }
     },
@@ -107,8 +107,8 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'lib/*.js',
-        '<%= config.app %>/scripts/{,*/}*.js',
-        '!<%= config.app %>/scripts/vendor/*',
+        '<%%= config.app %>/scripts/{,*/}*.js',
+        '!<%%= config.app %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
       ]
     },
