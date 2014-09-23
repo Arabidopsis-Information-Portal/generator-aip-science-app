@@ -111,11 +111,13 @@ are a couple of options:
 
 #### HTML
 
-1. Be careful is HTML IDs!
+1. Be careful using HTML IDs!
 
 #### JavaScript
 
 1. Use closures!
+
+#### More
 
 More coming soon!
 
@@ -127,6 +129,33 @@ Coming soon!
 
 AIP Science Apps use [Grunt][grunt] for executing development tasks
 and [Bower][bower] for library and dependency management.
+
+## Release history
+
+#### v0.2.3
+
+- updated documentation
+- fixed tests
+
+#### v0.2.2
+
+- Added serve:dist config
+- Upgraded dependency handling to use wiredep
+- removed CDN-served files from bower (bower should only be app dependencies, not env dependencies)
+- Using Swagger Api using jQuery instead of Shred.js
+- Added `/me` endpoint to profiles spec
+- Updated files spec to include uploading a file directly
+- Updated swagger.js with better support for uploading files
+- include a README in the generated app
+
+#### v0.2.0
+
+- Breaking changes to dependency handling related to upcoming changes in apps environment
+- added tests
+
+#### v0.1.0
+
+- Initial release
 
 ## License
 
