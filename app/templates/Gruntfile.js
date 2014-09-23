@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     watch: {
       bower: {
         files: ['bower.json'],
-        tasks: ['bowerInstall']
+        tasks: ['wiredep']
       },
       gruntfile: {
         files: 'Gruntfile.js',
@@ -141,10 +141,11 @@ module.exports = function(grunt) {
     },
 
     // Automatically inject Bower components into the HTML file
-    bowerInstall: {
-      app: {
-        src: ['<%= config.app %>/index.html'],
-        exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
+    wiredep: {
+      target: {
+        src: [
+          'index.html'
+        ]
       }
     },
 
@@ -174,6 +175,8 @@ module.exports = function(grunt) {
     if (target === 'dist') {
       return grunt.task.run([
         'clean:server',
+        'jshint',
+        'wiredep',
         'includes',
         'copy',
         'connect:dist:keepalive'
@@ -182,6 +185,8 @@ module.exports = function(grunt) {
 
     grunt.task.run([
       'clean:server',
+      'jshint',
+      'wiredep',
       'includes',
       'copy',
       'connect:livereload',
@@ -202,6 +207,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dist', [
     'clean:dist',
+    'jshint',
+    'wiredep',
     'inline'
   ]);
 

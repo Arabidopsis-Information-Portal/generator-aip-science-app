@@ -14,6 +14,9 @@
   <!-- fontawesome -->
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
+  <!-- bower:css -->
+  <!-- endbower-->
+
   <style type="text/css">
   body {
     padding-top: 60px;
@@ -64,15 +67,16 @@
   </div>
 
   <!-- swagger-js -->
-  <script type="text/javascript" src="/bower_components/swagger-js/lib/swagger.js"></script>
+  <script type="text/javascript" src="/lib/swagger/swagger.js"></script>
 
   <!-- test runner code -->
   <script src="/lib/Agave.js"></script>
   <script src="/lib/test-runner.js"></script>
 
-  <!-- application code --><% if (includeBioJS) { %>
-  <script src="/bower_components/biojs/src/main/javascript/Biojs.js"></script><% } %><% if (includeCytoscape) { %>
-  <script src="/bower_components/cytoscape/dist/cytoscape.js"></script><% } %>
+  <!-- bower:js -->
+  <!-- endbower -->
+
+  <!-- application code -->
   <script src="/app/scripts/app.js"></script>
 </body>
 </html>
