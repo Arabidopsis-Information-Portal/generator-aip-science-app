@@ -132,6 +132,11 @@ and [Bower][bower] for library and dependency management.
 
 ## Release history
 
+#### v0.2.4
+
+- fix issue with Gruntfile not being properly escaped
+- create a bower_components dir even when no dependencies so that wiredep is happy
+
 #### v0.2.3
 
 - updated documentation
