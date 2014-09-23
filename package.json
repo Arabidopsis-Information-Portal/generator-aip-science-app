@@ -32,8 +32,6 @@
   },
   "devDependencies": {
     "MD5": "^1.2.1",
-    "grunt": "^0.4.5",
-    "grunt-release": "^0.7.0",
     "mocha": "*"
   },
   "peerDependencies": {
