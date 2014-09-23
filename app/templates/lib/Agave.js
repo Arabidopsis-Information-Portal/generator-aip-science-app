@@ -150,6 +150,7 @@
       authorizations.add( 'Authorization', new ApiKeyAuthorization( 'Authorization', 'Bearer ' + Agave.token.accessToken, 'header' ) );
       Agave.api = new SwaggerApi({
         url: '//' + window.location.host + '/lib/resources',
+        useJQuery: true,
         success: function() {
           if ( Agave.api.ready === true ) {
             deferred.resolve( Agave );
