@@ -132,6 +132,10 @@ and [Bower][bower] for library and dependency management.
 
 ## Release history
 
+#### v0.2.6
+
+- tests
+
 #### v0.2.5
 
 - client generation was not using jQuery in the SwaggerApi init
