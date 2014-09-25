@@ -132,6 +132,11 @@ and [Bower][bower] for library and dependency management.
 
 ## Release history
 
+#### v0.2.5
+
+- client generation was not using jQuery in the SwaggerApi init
+- properly URI encode values in token calls
+
 #### v0.2.4
 
 - fix issue with Gruntfile not being properly escaped
