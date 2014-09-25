@@ -112,6 +112,7 @@
     authorizations.add( 'Authorization', new PasswordAuthorization( 'Authorization', username, password ) );
     var clientApi = new SwaggerApi({
       url: '//' + window.location.host + '/lib/resources',
+      useJQuery: true,
       success: function() {
         if ( clientApi.ready === true ) {
 
