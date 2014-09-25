@@ -12,12 +12,12 @@
   Agave.auth = {};
 
   Agave.auth.newToken = function( username, password ) {
-    var data = 'grant_type=password&scope=PRODUCTION&username=' + username + '&password=' + password;
+    var data = 'grant_type=password&scope=PRODUCTION&username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
     return Agave.auth.post( data );
   };
 
   Agave.auth.refreshToken = function( refreshToken ) {
-    var data = 'grant_type=refresh_token&scope=PRODUCTION&refresh_token=' + refreshToken;
+    var data = 'grant_type=refresh_token&scope=PRODUCTION&refresh_token=' + encodeURIComponent(refreshToken);
     return Agave.auth.post( data );
   };
 
