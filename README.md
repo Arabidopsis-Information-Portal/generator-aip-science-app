@@ -1,4 +1,4 @@
-# AIP Science App Generator [![Build Status](https://secure.travis-ci.org/mrhanlon/generator-aip-science-app.png?branch=master)](https://travis-ci.org/mrhanlon/generator-aip-science-app)
+# AIP Science App Generator [![Build Status](https://secure.travis-ci.org/Arabidopsis-Information-Portal/generator-aip-science-app.png?branch=master)](https://travis-ci.org/Arabidopsis-Information-Portal/generator-aip-science-app)
 
 A [Yeoman](http://yeoman.io) generator for building Science Applications for
 the [Arabidopsis Information Portal][aip]
