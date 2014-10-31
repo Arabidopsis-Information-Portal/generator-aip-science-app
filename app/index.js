@@ -80,7 +80,6 @@ var ScienceAppGenerator = yeoman.generators.Base.extend({
     }
 
     this.write('bower.json', JSON.stringify(bower, null, 2));
-    this.mkdir('bower_components'); // wiredep gets mad if dir does not exist
   },
 
   app: function () {
