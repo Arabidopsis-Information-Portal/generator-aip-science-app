@@ -132,6 +132,12 @@ and [Bower][bower] for library and dependency management.
 
 ## Release history
 
+#### v0.2.7
+
+- added [ADAMA API](https://github.com/Arabidopsis-Information-Portal/adama) spec
+- integrated [mrhanlon/swagger-js/tree/feature/arbitrary-query-params](https://github.com/mrhanlon/swagger-js/tree/feature/arbitrary-query-params)
+- updated fix for wiredep and missing `bower_components` directory
+
 #### v0.2.6
 
 - tests
