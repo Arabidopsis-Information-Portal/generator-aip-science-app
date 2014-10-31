@@ -498,7 +498,7 @@
           }
         }
         o.nickname = this.sanitize(o.nickname);
-        var op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations);
+        var op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations, o.deprecated);
         this.operations[op.nickname] = op;
         output.push(this.operationsArray.push(op));
       }
@@ -691,7 +691,7 @@
     return str;
   };
 
-  var SwaggerOperation = function (nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations) {
+  var SwaggerOperation = function (nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations, deprecated) {
     var _this = this;
 
     var errors = [];
@@ -707,6 +707,7 @@
     this.consumes = consumes;
     this.produces = produces;
     this.authorizations = authorizations;
+    this.deprecated = deprecated;
     this["do"] = __bind(this["do"], this);
 
     if (errors.length > 0) {
@@ -738,7 +739,7 @@
       }
       param.type = type;
 
-      if (type.toLowerCase() === 'boolean') {
+      if (type && type.toLowerCase() === 'boolean') {
         param.allowableValues = {};
         param.allowableValues.values = ["true", "false"];
       }
@@ -981,6 +982,23 @@
         }
       }
     }
+
+    /*
+     * support arbitrary query params added at call time
+     * mrhanlon/feature/arbitrary-query-params
+     */
+    if (args.queryParams) {
+      var keys = Object.keys(args.queryParams);
+      for (var i = 0; i < keys.length; i++) {
+        if (args.queryParams[keys[i]] !== undefined) {
+          if (queryParams !== '') {
+            queryParams += '&';
+          }
+          queryParams += encodeURIComponent(keys[i]) + '=' + encodeURIComponent(args.queryParams[keys[i]]);
+        }
+      }
+    }
+
     if ((queryParams != null) && queryParams.length > 0)
       url += '?' + queryParams;
     return url;
@@ -1664,6 +1682,8 @@
   var sampleModels = {};
   var cookies = {};
 
+  e.parameterMacro = parameterMacro;
+  e.modelPropertyMacro = modelPropertyMacro;
   e.SampleModels = sampleModels;
   e.SwaggerHttp = SwaggerHttp;
   e.SwaggerRequest = SwaggerRequest;
