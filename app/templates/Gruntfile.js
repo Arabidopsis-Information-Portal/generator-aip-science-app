@@ -141,11 +141,15 @@ module.exports = function(grunt) {
     },
 
     // Automatically inject Bower components into the HTML file
+    // don't include any transient jQuery dependencies
     wiredep: {
       target: {
         src: [
           'index.html'
-        ]
+        ],
+        options: {
+          exclude: [ /jquery\.js$/, /jquery\.min\.js$/ ]
+        }
       }
     },
 
