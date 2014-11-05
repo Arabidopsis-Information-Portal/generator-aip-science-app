@@ -132,6 +132,10 @@ and [Bower][bower] for library and dependency management.
 
 ## Release history
 
+#### v0.2.8
+
+- added exclude rules for wiredep; exclude jQuery, already provided by the test runner environment
+
 #### v0.2.7
 
 - added [ADAMA API](https://github.com/Arabidopsis-Information-Portal/adama) spec
