@@ -43,7 +43,7 @@ var expectedFiles = [
 ];
 
 var fileHashes = [
-  'adb4fa4952fbb9470bfd837ba17fce46',
+  '8ebdb97de639e57bf6a6c3ff40635145',
   '35a47ba96ef7df7a02a56404c4789661',
   'ba8ce97943fd057f95bf9bd224f9b341',
   '959adea3ffb26c065688feebd625b0ba',
