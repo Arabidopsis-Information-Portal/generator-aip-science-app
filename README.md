@@ -1,5 +1,7 @@
 # AIP Science App Generator [![Build Status](https://secure.travis-ci.org/Arabidopsis-Information-Portal/generator-aip-science-app.png?branch=master)](https://travis-ci.org/Arabidopsis-Information-Portal/generator-aip-science-app)
 
+[![Join the chat at https://gitter.im/Arabidopsis-Information-Portal/generator-aip-science-app](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Arabidopsis-Information-Portal/generator-aip-science-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A [Yeoman](http://yeoman.io) generator for building Science Applications for
 the [Arabidopsis Information Portal][aip]
 
