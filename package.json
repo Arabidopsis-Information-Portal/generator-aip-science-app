@@ -1,6 +1,6 @@
 {
   "name": "generator-aip-science-app",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "A generator for Science Apps for the Arabidopsis Information Portal",
   "license": "MIT",
   "main": "app/index.js",
@@ -26,9 +26,9 @@
     "app"
   ],
   "dependencies": {
-    "yeoman-generator": "~0.16.0",
-    "chalk": "~0.4.0",
-    "yosay": "^0.2.0"
+    "chalk": "^0.4.0",
+    "yeoman-generator": "^0.16.0",
+    "yosay": "^0.2.1"
   },
   "devDependencies": {
     "MD5": "^1.2.1",
