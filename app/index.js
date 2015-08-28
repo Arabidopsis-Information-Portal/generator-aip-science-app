@@ -31,7 +31,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
               name: 'appNameSpace',
               message: 'What\'s the name space for this science app?',
               validate:function(str){
-                  regexp = /^[^0-9a-zA-Z\-_\.]$/;
+                  var regexp = /^[^0-9a-zA-Z\-_\.]$/;
                   return str.search(regexp) < 0 ? true : false;
               }
             },
@@ -149,6 +149,17 @@ var ScienceAppGenerator = yeoman.Base.extend({
     },
 
     install: {
+        araport:function(){
+            var araport = {
+                namespace: this.appNameSpace,
+                name: this.appName,
+                description: this.appDesc,
+                html: this.appHTML,
+                scripts: [this.appScript],
+                styles: [this.appStyle]
+            }
+            this.write('araport-app.json', JSON.stringify(araport, null, 2));
+        },
         bower: function () {
             var bower = {
               name: this._.slugify(this.appname),
