@@ -4,6 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
+var slugify = require('underscore.string/slugify');
 
 
 var ScienceAppGenerator = yeoman.Base.extend({
@@ -11,6 +12,10 @@ var ScienceAppGenerator = yeoman.Base.extend({
     initializing:{
         init: function(){
             this.pkg = require('../package.json');
+            this.log('template path: ' + this.sourceRoot());
+            this.log('destination path: ' + this.destinationRoot());
+            this.log('appname: ' + this.appname);
+            this.log('asdf: ' + slugify('asdf asdf'));
         }
     },
 
@@ -59,6 +64,18 @@ var ScienceAppGenerator = yeoman.Base.extend({
               default: 'main.css'
             },
             {
+              type: 'input',
+              name: 'appStyleDir',
+              message: 'Where do you want to keep your stylesheets?',
+              default: 'styles'
+            },
+            {
+              type: 'input',
+              name: 'appScriptDir',
+              message: 'Where do you want to keep your scripts?',
+              default: 'scripts'
+            },
+            {
               type: 'checkbox',
               name: 'libraries',
               message: 'Would you like to use any of the following libraries?',
@@ -79,7 +96,11 @@ var ScienceAppGenerator = yeoman.Base.extend({
               this.scAppDesc = props.appDesc;
               this.scAppHTML = props.appHTML.length > 0 ? props.appHTML : this.scAppNameSpace + '.html';
               this.scAppScript = props.appScript.length > 0 ? props.appScript : this.scAppNameSpace + '.js';
+              this.scAppScriptDir = props.appScriptDir.length > 0 ? props.appScriptDir : 'scripts';
               this.scAppStyle = props.appStyle.length > 0 ? props.appStyle : this.scAppNameSpace + '.css';
+              this.scAppStyleDir = props.appStyleDir.length > 0 ? props.appStyleDir : 'style';
+
+              this.scAppNameSlug = slugify(this.scAppName);
               if(this.scAppHTML.lastIndexOf('.') === -1 || 
                   this.scAppHTML.substring(this.scAppHTML.lastIndexOf('.'), 
                   this.scAppHTML) !== '.html'){
@@ -123,11 +144,16 @@ var ScienceAppGenerator = yeoman.Base.extend({
 
     default: {
         readme: function() {
-            this.template('README.md');
+            this.fs.copyTpl(this.templatePath('README.md'), 
+                            this.destinationPath('README.md'), 
+                            {appname: this.scAppNameSlug});
         },
 
         gruntfile: function () {
-            this.template('Gruntfile.js');
+            this.template(this.templatePath('Gruntfile.js'),
+                          this.destinationPath('Gruntfile.js'),
+                          {appname: this.scAppNameSlug, 
+                            app: 'app', dist: 'dist'});
         },
 
         packageJSON: function() {
@@ -157,12 +183,12 @@ var ScienceAppGenerator = yeoman.Base.extend({
                 html: this.appHTML,
                 scripts: [this.appScript],
                 styles: [this.appStyle]
-            }
-            this.write('araport-app.json', JSON.stringify(araport, null, 2));
+            };
+            this.fs.write('araport-app.json', JSON.stringify(araport, null, 2));
         },
         bower: function () {
             var bower = {
-              name: this._.slugify(this.appname),
+              name: slugify(this.appname),
               private: true,
               dependencies: {}
             };
@@ -175,7 +201,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
               bower.dependencies.cytoscape = 'cytoscape/cytoscape.js#~2.2.13';
             }
 
-            this.write('bower.json', JSON.stringify(bower, null, 2));
+            this.fs.write('bower.json', JSON.stringify(bower, null, 2));
          
         }
     }

@@ -26,9 +26,10 @@
     "app"
   ],
   "dependencies": {
-    "chalk": "^0.4.0",
-    "yeoman-generator": "^0.16.0",
-    "yosay": "^0.2.1"
+    "chalk": ">0.4.0",
+    "yeoman-generator": ">0.16.0",
+    "yosay": ">0.2.1",
+    "undersoce.string": ">=2.3.2"
   },
   "devDependencies": {
     "MD5": "^1.2.1",

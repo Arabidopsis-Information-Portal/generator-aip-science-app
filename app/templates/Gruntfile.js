@@ -5,9 +5,9 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   var config = {
-    appName: '<%= _.slugify(appname) %>',
-    app: 'app',
-    dist: 'dist'
+    appName: '<%= appname %>',
+    app: '<%= app %>',
+    dist: '<%= dist %>'
   };
 
   // Project configuration.
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
       js: {
-        files: ['<%%= config.app %>/scripts/{,*/}*.js'],
+        files: ['<%%= config.app %>/<%= scriptDir %>/{,*/}*.js'],
         tasks: ['jshint'],
         options: {
           livereload: true
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
           'lib/*.*',
           '<%%= config.app %>/{,*/}*.html',
           '<%%= config.app %>/images/{,*/}*',
-          '<%= config.app %>/styles/{,*/}*.css',
+          '<%= config.app %>/<%= styleDir %>/{,*/}*.css',
           '.tmp/styles/{,*/}*.css'
         ],
         tasks: ['includes'],
@@ -69,7 +69,8 @@ module.exports = function(grunt) {
               connect.static('.tmp'),
               connect().use('/lib', connect.static('lib')),
               connect().use('/bower_components', connect.static('./bower_components')),
-              connect().use('/app', connect.static(config.app))
+              connect().use('/app', connect.static(config.app)),
+              connect().use('/assets', connect.static('./assets'))
             ];
           }
         }
@@ -81,7 +82,8 @@ module.exports = function(grunt) {
               connect.static('.tmp'),
               connect().use('/lib', connect.static('lib')),
               connect().use('/bower_components', connect.static('./bower_components')),
-              connect().use('/app', connect.static(config.app))
+              connect().use('/app', connect.static(config.app)),
+              connect().use('/assets', connect.static('./assets'))
             ];
           }
         }
@@ -108,8 +110,8 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'lib/*.js',
-        '<%%= config.app %>/scripts/{,*/}*.js',
-        '!<%%= config.app %>/scripts/vendor/*',
+        '<%%= config.app %>/<%= scriptDir %>/{,*/}*.js',
+        '!<%%= config.app %>/<%= scriptDir %>/vendor/*',
         'test/spec/{,*/}*.js'
       ]
     },
@@ -165,7 +167,7 @@ module.exports = function(grunt) {
 
     inline: {
       dist: {
-        src: ['app/app.html'],
+        src: ['app/<%= appHTML %>'],
         dest: [ 'dist/' ],
         options:{
           cssmin: true,
@@ -174,6 +176,115 @@ module.exports = function(grunt) {
         },
       }
     }
+  });
+
+/*
+*   This task reads araport-app.json file and injects the necessary references
+*   in the specified files. Its functionality is based on wiredep's functionality.
+*   There could probably be a better solution out there, or maybe modify grunt-wiredep?
+*/
+  grunt.registerTask('araport-wiredep', '', function(){
+    console.log('Wiring dependencies from araport-app.json');
+    var $ = {
+      _: require('lodash'),
+      fs: require('fs'),
+      path: require('path'),
+    };
+    //TODO relative path of assets, scripts and styles should only be app/ without the {styles, assets, scripts}
+    var config = {
+        'src': 'index.html',
+        'appFile': 'araport-app.json',
+        'fileTypes':{
+            'js':{
+                'depprop': 'scripts',
+                'depcwd': 'app/',
+                'replaceStr': '<script src="%filePath%"></script>'
+            },
+            'css':{
+                'depprop': 'styles',
+                'depcwd': 'app/',
+                'replaceStr': '<link rel="stylesheet" href="%filePath%" />'
+            },
+            'html':{
+                'depprop': 'html',
+                'depcwd': '/app/',
+                'replaceStr': 'include "%filePath%"'
+            },
+        },
+        'block': /(([ \t]*)<!--\s*araport_dep:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endaraport_dep\s*-->)/gi
+    };
+    var error;
+    //Check for the araport=app.json file and load it.
+    if(!$.fs.existsSync(config.appFile)){
+        error = new Error('Cannot find araport-app.json.');
+        error.code = 'ARAPORT_COMPONENTS_MISSING';
+        grunt.fail.warn(error);
+    }
+    var ajson = JSON.parse($.fs.readFileSync(config.appFile));
+    //Check for the index.html file and load it.
+    if(!$.fs.existsSync(config.src)){
+        error = new Error('Cannot find src file');
+        error.code = 'ARAPORT_COMPONENTS_MISSING';
+        grunt.fail.warn(error);
+    }
+    var shtml = String($.fs.readFileSync(config.src));
+    var filePath = config.src;
+    //var fileExt = $.path.extname(filePath).substr(1);
+    //Get the file types that are on the config json.
+    var fileTypes = [];
+    $._.forEach(config.fileTypes, function(n, key){
+        fileTypes.push(key);
+    });
+    //function to get the array of file names to wire.
+    var _getFileNames = function(fileType, config, ajson){
+        var depprop = config.fileTypes[fileType].depprop;
+        var ret = [];
+        var tmpRet = ajson[depprop];
+        if(tmpRet.constructor !== Array){
+            ret.push(tmpRet);
+        }else{
+            ret = tmpRet;
+        }
+        return ret;
+    };
+    //function to append the relative path within the app to the files to wire.
+    var _getRelPaths = function(fileType, config, ajson, fileNames){
+        var depcwd = config.fileTypes[fileType].depcwd;
+        var relPaths = [];
+        $._(fileNames).forEach(function(n){
+            relPaths.push(depcwd + n);
+        }).value();
+        return relPaths;
+    };
+
+    //Callback function when we find a block
+    var _constructDeps = function(relPaths, config, fileType){
+        var paths = relPaths;
+        var cfg = config;
+        var ft = fileType;
+        return function(match, startBlock, spacing, blockType, oldScripts, endBlock, offset, string){
+            var ret = '';
+            if(blockType !== fileType){
+                return match;
+            }
+            var deps = "";
+            $._(paths).forEach(function(relPath){
+                deps += cfg.fileTypes[ft].replaceStr.replace('%filePath%', relPath) + spacing;
+            }).value();
+            return startBlock + '\n' + spacing + deps + '\n' +  spacing + endBlock;
+        };
+    };
+    var newCont = shtml;
+    $._(fileTypes).forEach(function(n){
+        console.log("for filetype: " + n);
+        var fileNames = _getFileNames(n, config, ajson);
+        var relPaths = _getRelPaths(n, config, ajson, fileNames);
+        newCont = newCont.replace(config.block, _constructDeps(relPaths, config, n));
+    }).value();
+    if (newCont !== shtml){
+        $.fs.writeFileSync(filePath, newCont);
+    }
+    return true; 
   });
 
   /*
@@ -194,6 +305,7 @@ module.exports = function(grunt) {
         'clean:server',
         'jshint',
         'checkdeps',
+        'araport-wiredep',
         'wiredep',
         'includes',
         'copy',
@@ -205,6 +317,7 @@ module.exports = function(grunt) {
       'clean:server',
       'jshint',
       'checkdeps',
+      'araport-wiredep',
       'wiredep',
       'includes',
       'copy',
@@ -228,6 +341,7 @@ module.exports = function(grunt) {
     'clean:dist',
     'jshint',
     'checkdeps',
+    'araport-wiredep',
     'wiredep',
     'inline'
   ]);
