@@ -166,8 +166,9 @@ var ScienceAppGenerator = yeoman.Base.extend({
                             {appname: this.scAppNameSlug});
         },
         app: function () {
-            this.fs.copy(this.templatePath('app/app.html'), 
-                        this.destinationPath('app/' + this.scAppHTML));
+            this.fs.copyTpl(this.templatePath('app/app.html'), 
+                        this.destinationPath('app/' + this.scAppHTML),
+                        {appname: this.scAppNameSlug});
             this.fs.copy(this.templatePath('app/styles/app.css'),
                         this.destinationPath('app/' + this.scAppStyleDir + '/' + this.scAppStyle));
             this.fs.copyTpl(this.templatePath('app/scripts/app.js'),
