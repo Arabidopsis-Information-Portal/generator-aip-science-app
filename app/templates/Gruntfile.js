@@ -41,7 +41,7 @@ module.exports = function(grunt) {
           'lib/*.*',
           '<%%= config.app %>/{,*/}*.html',
           '<%%= config.app %>/images/{,*/}*',
-          '<%= config.app %>/<%= styleDir %>/{,*/}*.css',
+          '<%%= config.app %>/<%= styleDir %>/{,*/}*.css',
           '.tmp/styles/{,*/}*.css'
         ],
         tasks: ['includes'],
@@ -183,6 +183,7 @@ module.exports = function(grunt) {
 *   in the specified files. Its functionality is based on wiredep's functionality.
 *   There could probably be a better solution out there, or maybe modify grunt-wiredep?
 */
+/*jshint unused:false */
   grunt.registerTask('araport-wiredep', '', function(){
     console.log('Wiring dependencies from araport-app.json');
     var $ = {
@@ -263,11 +264,10 @@ module.exports = function(grunt) {
         var cfg = config;
         var ft = fileType;
         return function(match, startBlock, spacing, blockType, oldScripts, endBlock, offset, string){
-            var ret = '';
             if(blockType !== fileType){
                 return match;
             }
-            var deps = "";
+            var deps = '';
             $._(paths).forEach(function(relPath){
                 deps += cfg.fileTypes[ft].replaceStr.replace('%filePath%', relPath) + spacing;
             }).value();
@@ -276,7 +276,7 @@ module.exports = function(grunt) {
     };
     var newCont = shtml;
     $._(fileTypes).forEach(function(n){
-        console.log("for filetype: " + n);
+        console.log('for filetype: ' + n);
         var fileNames = _getFileNames(n, config, ajson);
         var relPaths = _getRelPaths(n, config, ajson, fileNames);
         newCont = newCont.replace(config.block, _constructDeps(relPaths, config, n));

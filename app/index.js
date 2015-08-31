@@ -91,31 +91,32 @@ var ScienceAppGenerator = yeoman.Base.extend({
             }];
 
             this.prompt(prompts, function (props) {
+              this.scAppNameSlug = slugify(props.appName);
               this.scAppName = props.appName.length > 0 ? props.appName : 'Science App';
-              this.scAppNameSpace = props.appNameSpace.length > 0 ? props.appName : 'my-app';
+              this.scAppNameSpace = props.appNameSpace.length > 0 ? props.appNameSpace : 'my-app';
               this.scAppDesc = props.appDesc;
-              this.scAppHTML = props.appHTML.length > 0 ? props.appHTML : this.scAppNameSpace + '.html';
-              this.scAppScript = props.appScript.length > 0 ? props.appScript : this.scAppNameSpace + '.js';
+              this.scAppHTML = props.appHTML.length > 0 ? props.appHTML : this.scAppNameSlug;
+              this.scAppScript = props.appScript.length > 0 ? props.appScript : this.scAppNameSlug;
               this.scAppScriptDir = props.appScriptDir.length > 0 ? props.appScriptDir : 'scripts';
-              this.scAppStyle = props.appStyle.length > 0 ? props.appStyle : this.scAppNameSpace + '.css';
+              this.scAppStyle = props.appStyle.length > 0 ? props.appStyle : this.scAppNameSlug;
               this.scAppStyleDir = props.appStyleDir.length > 0 ? props.appStyleDir : 'style';
 
-              this.scAppNameSlug = slugify(this.scAppName);
+
               if(this.scAppHTML.lastIndexOf('.') === -1 || 
                   this.scAppHTML.substring(this.scAppHTML.lastIndexOf('.'), 
-                  this.scAppHTML) !== '.html'){
+                  this.scAppHTML.length) !== '.html'){
 
                   this.scAppHTML += '.html';
               }
-              if(this.scAppScript.lastIndexOf('.') ===-1 || 
+              if(this.scAppScript.lastIndexOf('.') === -1 ||
                   this.scAppScript.substring(this.scAppScript.lastIndexOf('.'), 
-                  this.scAppScript) !== '.js'){
+                  this.scAppScript.length) !== '.js'){
 
                   this.scAppScript += '.js';
               }
               if(this.scAppStyle.lastIndexOf('.') === -1 || 
                   this.scAppStyle.substring(this.scAppStyle.lastIndexOf('.'), 
-                  this.scAppStyle) !== '.css'){
+                  this.scAppStyle.length) !== '.css'){
 
                   this.scAppStyle += '.css';
               }
@@ -160,15 +161,17 @@ var ScienceAppGenerator = yeoman.Base.extend({
         },
 
         packageJSON: function() {
-            this.fs.copyTpl('package.json');
+            this.fs.copyTpl(this.templatePath('package.json'),
+                            this.destinationPath('package.json'),
+                            {appname: this.scAppNameSlug});
         },
         app: function () {
             this.fs.copy(this.templatePath('app/app.html'), 
                         this.destinationPath('app/' + this.scAppHTML));
             this.fs.copy(this.templatePath('app/styles/app.css'),
-                        this.destinationPath('app/' + this.scAppStyleDir + '/' + this.scAppStyle);
+                        this.destinationPath('app/' + this.scAppStyleDir + '/' + this.scAppStyle));
             this.fs.copy(this.templatePath('app/scripts/app.js'),
-                        this.destinationPath('app/' + this.scAppScriptDir + '/' + this.scAppScript);
+                        this.destinationPath('app/' + this.scAppScriptDir + '/' + this.scAppScript));
         },
 
         testrunner: function() {
@@ -177,24 +180,29 @@ var ScienceAppGenerator = yeoman.Base.extend({
                             {appname: this.scAppName });
             this.fs.copy(this.templatePath('lib/*'),
                         this.destinationPath('lib/'));
+
+            this.fs.copy(this.templatePath('lib/resources/*'),
+                        this.destinationPath('lib/resources/'));
+            this.fs.copy(this.templatePath('lib/swagger/*'),
+                        this.destinationPath('lib/swagger/'));
         }
     },
 
     install: {
         araport:function(){
             var araport = {
-                namespace: this.appNameSpace,
-                name: this.appName,
-                description: this.appDesc,
-                html: this.appHTML,
-                scripts: [this.appScript],
-                styles: [this.appStyle]
+                namespace: this.scAppNameSpace,
+                name: this.scAppName,
+                description: this.scAppDesc,
+                html: this.scAppHTML + '.html',
+                scripts: [this.scAppScript],
+                styles: [this.scAppStyle]
             };
             this.fs.write('araport-app.json', JSON.stringify(araport, null, 2));
         },
         bower: function () {
             var bower = {
-              name: slugify(this.appname),
+              name: this.scAppNameSlug,
               private: true,
               dependencies: {}
             };
