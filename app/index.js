@@ -150,27 +150,33 @@ var ScienceAppGenerator = yeoman.Base.extend({
         },
 
         gruntfile: function () {
-            this.template(this.templatePath('Gruntfile.js'),
+            this.fs.copyTpl(this.templatePath('Gruntfile.js'),
                           this.destinationPath('Gruntfile.js'),
                           {appname: this.scAppNameSlug, 
-                            app: 'app', dist: 'dist'});
+                            app: 'app', dist: 'dist',
+                            scriptDir: this.scAppScriptDir,
+                            styleDir: this.scAppStyleDir, 
+                            appHTML: this.scAppHTML});
         },
 
         packageJSON: function() {
-            this.template('package.json');
+            this.fs.copyTpl('package.json');
         },
         app: function () {
-            this.directory('app');
-            this.mkdir('app/scripts');
-            this.mkdir('app/styles');
-            this.template('app/app.html');
-            this.template('app/scripts/app.js');
-            this.copy('app/styles/app.css');
+            this.fs.copy(this.templatePath('app/app.html'), 
+                        this.destinationPath('app/' + this.scAppHTML));
+            this.fs.copy(this.templatePath('app/styles/app.css'),
+                        this.destinationPath('app/' + this.scAppStyleDir + '/' + this.scAppStyle);
+            this.fs.copy(this.templatePath('app/scripts/app.js'),
+                        this.destinationPath('app/' + this.scAppScriptDir + '/' + this.scAppScript);
         },
 
         testrunner: function() {
-            this.template('index.html');
-            this.directory('lib');
+            this.fs.copyTpl(this.templatePath('index.html'), 
+                            this.destinationPath('index.html'),
+                            {appname: this.scAppName });
+            this.fs.copy(this.templatePath('lib/*'),
+                        this.destinationPath('lib/'));
         }
     },
 
