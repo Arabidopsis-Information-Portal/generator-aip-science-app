@@ -194,9 +194,9 @@ var ScienceAppGenerator = yeoman.Base.extend({
                 namespace: this.scAppNameSpace,
                 name: this.scAppName,
                 description: this.scAppDesc,
-                html: this.scAppHTML + '.html',
-                scripts: [this.scAppScript],
-                styles: [this.scAppStyle]
+                html: this.scAppHTML,
+                scripts: [this.scAppScriptDir + '/' + this.scAppScript],
+                styles: [this.scAppStyleDir + '/' + this.scAppStyle]
             };
             this.fs.write('araport-app.json', JSON.stringify(araport, null, 2));
         },
