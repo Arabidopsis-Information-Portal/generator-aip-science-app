@@ -3,7 +3,7 @@
 
   console.log('Hello, <%= appname %>!');
 
-  var appContext = $('[data-app-name="<%= _.slugify(appname) %>"]');
+  var appContext = $('[data-app-name="<%= appslug %>"]');
 
   /* Generate Agave API docs */
   window.addEventListener('Agave::ready', function() {
