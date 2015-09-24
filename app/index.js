@@ -36,7 +36,16 @@ var ScienceAppGenerator = yeoman.Base.extend({
               name: 'appNameSpace',
               message: 'What\'s the name space for this science app?',
               validate:function(str){
-                  var regexp = /^[^0-9a-zA-Z\-_\.]$/;
+                  var regexp = /^[^0-9a-zA-Z\-_\.]*$/;
+                  return str.search(regexp) < 0 ? true : false;
+              }
+            },
+            {
+              type: 'input',
+              name: 'appService',
+              message: 'Which service are you going to use?',
+              validate:function(str){
+                  var regexp = /^[^0-9a-zA-Z\-_\.]*$/;
                   return str.search(regexp) < 0 ? true : false;
               }
             },
@@ -93,7 +102,8 @@ var ScienceAppGenerator = yeoman.Base.extend({
             this.prompt(prompts, function (props) {
               this.scAppNameSlug = slugify(props.appName);
               this.scAppName = props.appName.length > 0 ? props.appName : 'Science App';
-              this.scAppNameSpace = props.appNameSpace.length > 0 ? props.appNameSpace : 'my-app';
+              this.scAppNameSpace = props.appNameSpace.length > 0 ? props.appNameSpace : '';
+              this.scAppService = props.appService.length > 0 ? props.appService : '';
               this.scAppDesc = props.appDesc;
               this.scAppHTML = props.appHTML.length > 0 ? props.appHTML : this.scAppNameSlug;
               this.scAppScript = props.appScript.length > 0 ? props.appScript : this.scAppNameSlug;
