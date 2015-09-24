@@ -226,6 +226,9 @@ var ScienceAppGenerator = yeoman.Base.extend({
             if (this.includeCytoscape) {
               bower.dependencies.cytoscape = 'cytoscape/cytoscape.js#~2.2.13';
             }
+            bower.dependencies.lodash = '*';
+            bower.dependencies.fs = '*';
+            bower.dependencies.path = '*';
 
             this.fs.write('bower.json', JSON.stringify(bower, null, 2));
          
