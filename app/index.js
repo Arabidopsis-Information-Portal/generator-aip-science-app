@@ -15,7 +15,6 @@ var ScienceAppGenerator = yeoman.Base.extend({
             this.log('template path: ' + this.sourceRoot());
             this.log('destination path: ' + this.destinationRoot());
             this.log('appname: ' + this.appname);
-            this.log('asdf: ' + slugify('asdf asdf'));
         }
     },
 
@@ -193,8 +192,8 @@ var ScienceAppGenerator = yeoman.Base.extend({
             this.fs.copy(this.templatePath('lib/*'),
                         this.destinationPath('lib/'));
 
-            this.fs.copy(this.templatePath('lib/resources/*'),
-                        this.destinationPath('lib/resources/'));
+            this.fs.copy(this.templatePath('lib/resources/**'),
+                        this.destinationPath('lib/resources/'), {globOptions: {ignore: this.templatePath('lib/resources/index.json')}});
             this.fs.copy(this.templatePath('lib/swagger/*'),
                         this.destinationPath('lib/swagger/'));
         }
@@ -210,7 +209,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
                 scripts: [this.scAppScriptDir + '/' + this.scAppScript],
                 styles: [this.scAppStyleDir + '/' + this.scAppStyle]
             };
-            this.fs.write('araport-app.json', JSON.stringify(araport, null, 2));
+            this.fs.write(this.destinationPath('araport-app.json'), JSON.stringify(araport, null, 2));
         },
         bower: function () {
             var bower = {
@@ -230,8 +229,12 @@ var ScienceAppGenerator = yeoman.Base.extend({
             bower.dependencies.fs = '*';
             bower.dependencies.path = '*';
 
-            this.fs.write('bower.json', JSON.stringify(bower, null, 2));
-         
+            this.fs.write(this.destinationPath('bower.json'), JSON.stringify(bower, null, 2));
+        },
+        swagger: function(){
+            var swaggerIndex = this.fs.readJSON(this.templatePath('lib/resources/index.json'));
+            swaggerIndex.basePath = '/lib/resources';
+            this.fs.writeJSON(this.destinationPath('lib/resources/index.json'), swaggerIndex, null, 2);
         }
     }
 });

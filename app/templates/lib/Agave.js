@@ -111,7 +111,7 @@
 
     authorizations.add( 'Authorization', new PasswordAuthorization( 'Authorization', username, password ) );
     var clientApi = new SwaggerApi({
-      url: '//' + window.location.host + '/lib/resources',
+      url: '//' + window.location.host + '/lib/resources/index.json',
       useJQuery: true,
       success: function() {
         if ( clientApi.ready === true ) {
@@ -150,7 +150,7 @@
     if (Agave.client && Agave.token) {
       authorizations.add( 'Authorization', new ApiKeyAuthorization( 'Authorization', 'Bearer ' + Agave.token.accessToken, 'header' ) );
       Agave.api = new SwaggerApi({
-        url: '//' + window.location.host + '/lib/resources',
+        url: '//' + window.location.host + '/lib/resources/index.json',
         useJQuery: true,
         success: function() {
           if ( Agave.api.ready === true ) {
