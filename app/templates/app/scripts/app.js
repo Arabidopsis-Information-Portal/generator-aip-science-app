@@ -1,4 +1,4 @@
-(function(window, $, undefined) {
+var AIP = (function(window, $, undefined) {
   'use strict';
 
   console.log('Hello, <%= appname %>!');
@@ -6,7 +6,8 @@
   var appContext = $('[data-app-name="<%= appslug %>"]');
 
   /* Generate Agave API docs */
-  window.addEventListener('Agave::ready', function() {
+  //window.addEventListener('Agave::ready', function() {
+  var printDocs = function(){
     var Agave, help, helpItem, helpDetail, methods, methodDetail;
 
     Agave = window.Agave;
@@ -53,6 +54,8 @@
     info.addClass('text-center');
     info.append('<p>' + Agave.api.info.title + ': ' + Agave.api.info.description + '</p>');
     info.append('<p><a href="mailto:' + Agave.api.info.contact + '">Contact</a> | <a href="' + Agave.api.info.license + '">License</a> | <a href="' + Agave.api.info.license + '">Terms of use</a></p>');
-  });
-
+  };
+  //});
+  var obj = {};
+  return obj.printDocs = printDocs;
 })(window, jQuery);
