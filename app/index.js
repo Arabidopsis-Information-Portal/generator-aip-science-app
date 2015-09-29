@@ -183,6 +183,8 @@ var ScienceAppGenerator = yeoman.Base.extend({
             this.fs.copyTpl(this.templatePath('app/scripts/app.js'),
                         this.destinationPath('app/' + this.scAppScriptDir + '/' + this.scAppScript),
                         {appname: this.scAppName, appslug: this.scAppNameSlug});
+            this.fs.copy(this.templatePath('app/scripts/aip-helper.js'),
+                        this.destinationPath('app/' + this.scAppScriptDir + '/aip-helper.js'));
         },
 
         testrunner: function() {
@@ -206,7 +208,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
                 name: this.scAppName,
                 description: this.scAppDesc,
                 html: this.scAppHTML,
-                scripts: [this.scAppScriptDir + '/' + this.scAppScript],
+                scripts: [this.scAppScriptDir + '/aip-helper.js', this.scAppScriptDir + '/' + this.scAppScript],
                 styles: [this.scAppStyleDir + '/' + this.scAppStyle]
             };
             this.fs.write(this.destinationPath('araport-app.json'), JSON.stringify(araport, null, 2));
@@ -225,9 +227,6 @@ var ScienceAppGenerator = yeoman.Base.extend({
             if (this.includeCytoscape) {
               bower.dependencies.cytoscape = 'cytoscape/cytoscape.js#~2.2.13';
             }
-            bower.dependencies.lodash = '*';
-            bower.dependencies.fs = '*';
-            bower.dependencies.path = '*';
 
             this.fs.write(this.destinationPath('bower.json'), JSON.stringify(bower, null, 2));
         },
