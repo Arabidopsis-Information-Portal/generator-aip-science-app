@@ -5,7 +5,7 @@ AIP = (function(window, $, undefined) {
 
   /* Generate Agave API docs */
   //window.addEventListener('Agave::ready', function() {
-  var printDocs = function(appContext){
+  var displayDocs = function(appContext){
     var Agave, help, helpItem, helpDetail, methods, methodDetail;
 
     Agave = window.Agave;
@@ -54,26 +54,82 @@ AIP = (function(window, $, undefined) {
     info.append('<p><a href="mailto:' + Agave.api.info.contact + '">Contact</a> | <a href="' + Agave.api.info.license + '">License</a> | <a href="' + Agave.api.info.license + '">Terms of use</a></p>');
   };
   //});
-  var obj = {};
-  obj.printDocs = printDocs;
-  return obj;
+  var aip = {};
+  aip.displayDocs = displayDocs;
+  return aip;
 })(window, jQuery);
 
 
 
 AIP = (function(window, $, aip){
     'use strict';
-    aip.process = function(data){
-        var response = JSON.parse(data.response);
-        console.log(response);
+    aip._titleize = function(str){
+        str = str.replace(/[\-_]/g, ' ');
+        return str.replace(/([^\W_]+[^\s-]*)*/g, 
+                           function(txt){
+                               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                           });
     };
-    aip.getList = function(element, namespace, service, config){
-        aip.table = {};
-        aip.table.element = element;
-        aip.table.config = config;
+    aip.printTableHeaders = function(props){
+        var table = $('<table class="table table-striped table-bordered"><thead></thead><tbody></tbody></table>');
+        var thead = $('thead', table);
+        var row = $('<tr></tr>');
+        var header;
+        for(var i = 0; i < props.length; i++){
+            header = $('<th>' + aip._titleize(props[i]) + '</th>');
+            row.append(header);
+        }
+        thead.append(row);
+        aip.table.element.append(table);
+    };
+    aip.printTableData = function(objs, props){
+        var tbody = $('tbody', aip.table.element);
+        var row, cell, i, j, prop, obj;
+        for(i = 0; i < objs.length && i < 10; i++){
+            obj = objs[i];
+            row = $('<tr></tr>');
+            for(j = 0; j < props.length; j++){
+                prop = props[j];
+                cell = $('<td>' + obj[prop] + '</td>');
+                row.append(cell);
+            }
+            tbody.append(row);
+        }
+    };
+    aip.process = function(data){
+        var response = data.obj.result;
+        if(response.length <= 0){
+            return;
+        }
+        var obj = response[0];
+        var props = [];
+        for(var p in obj){
+            if(!obj.hasOwnProperty(p)){
+                continue;
+            }
+            props.push(p);
+        }
+        $('.loading', aip.table.element).remove();
+        aip.printTableHeaders(props);
+        aip.printTableData(response, props);
+    };
+    aip.error = function(err){
+        if(console){
+            console.log("There was an error comunicating to Agave: ", err);
+        }
+    };
+    aip.getList = function(namespace, service, config){
         var Agave = window.Agave;
         var params = {namespace: namespace, service: service};
         Agave.api.adama.list(params, aip.process, aip.error);
+    };
+    aip.displayList = function(element, namespace, service, config){
+        aip.table = {};
+        aip.table.element = element;
+        aip.table.config = config;
+        var loading = $('<h3 class="loading"> Loading data ... <span class="glyphicon glyphicon-refresh spin-icon"></span></h3>');
+        aip.table.element.append(loading);
+        aip.getList(namespace, service, config);
     };
     return aip;
 }(window, jQuery, AIP));
