@@ -70,7 +70,8 @@ module.exports = function(grunt) {
               connect().use('/lib', connect.static('lib')),
               connect().use('/bower_components', connect.static('./bower_components')),
               connect().use('/app', connect.static(config.app)),
-              connect().use('/assets', connect.static('./assets'))
+              connect().use('/assets', connect.static('./assets')),
+              connect().use('/', connect.static('./'))
             ];
           }
         }
@@ -83,7 +84,8 @@ module.exports = function(grunt) {
               connect().use('/lib', connect.static('lib')),
               connect().use('/bower_components', connect.static('./bower_components')),
               connect().use('/app', connect.static(config.app)),
-              connect().use('/assets', connect.static('./assets'))
+              connect().use('/assets', connect.static('./assets')),
+              connect().use('/', connect.static('./'))
             ];
           }
         }
