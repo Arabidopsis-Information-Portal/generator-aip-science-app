@@ -115,14 +115,16 @@ AIP = (function(window, $, aip){
     };
     aip.error = function(err){
         if(console){
-            console.log("There was an error comunicating to Agave: ", err);
+            console.log('There was an error comunicating to Agave: ', err);
         }
     };
+    // jshint unused:false
     aip.getList = function(namespace, service, config){
         var Agave = window.Agave;
         var params = {namespace: namespace, service: service};
         Agave.api.adama.list(params, aip.process, aip.error);
     };
+    // jshint unused:strict
     aip.displayList = function(element, namespace, service, config){
         aip.table = {};
         aip.table.element = element;

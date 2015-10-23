@@ -1,4 +1,4 @@
-/* globals window, jQuery, AIP */
+/* globals window, AIP, $ */
   'use strict';
   window.addEventListener('Agave::ready', function() {
     if(console){
