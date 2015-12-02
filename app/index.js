@@ -1,9 +1,6 @@
 'use strict';
-var util = require('util');
-var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
-var chalk = require('chalk');
 var slugify = require('underscore.string/slugify');
 
 
@@ -32,6 +29,12 @@ var ScienceAppGenerator = yeoman.Base.extend({
             },
             {
               type: 'input',
+              name: 'appDesc',
+              message: 'Give a quick description of this science app.'
+            },
+            /*,
+            {
+              type: 'input',
               name: 'appNameSpace',
               message: 'What\'s the name space for this science app?',
               validate:function(str){
@@ -47,11 +50,6 @@ var ScienceAppGenerator = yeoman.Base.extend({
                   var regexp = /^[^0-9a-zA-Z\-_\.]*$/;
                   return str.search(regexp) < 0 ? true : false;
               }
-            },
-            {
-              type: 'input',
-              name: 'appDesc',
-              message: 'Give a quick description of this science app.'
             },
             {
               type: 'input',
@@ -82,7 +80,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
               name: 'appScriptDir',
               message: 'Where do you want to keep your scripts?',
               default: 'scripts'
-            },
+            }*/
             {
               type: 'checkbox',
               name: 'libraries',
@@ -100,15 +98,15 @@ var ScienceAppGenerator = yeoman.Base.extend({
 
             this.prompt(prompts, function (props) {
               this.scAppNameSlug = slugify(props.appName);
-              this.scAppName = props.appName.length > 0 ? props.appName : 'Science App';
-              this.scAppNameSpace = props.appNameSpace.length > 0 ? props.appNameSpace : '';
-              this.scAppService = props.appService.length > 0 ? props.appService : '';
+              this.scAppName = 'Science App'; //props.appName.length > 0 ? props.appName : 'Science App';
+              this.scAppNameSpace = ''; //props.appNameSpace.length > 0 ? props.appNameSpace : '';
+              this.scAppService = ''; //props.appService.length > 0 ? props.appService : '';
               this.scAppDesc = props.appDesc;
-              this.scAppHTML = props.appHTML.length > 0 ? props.appHTML : this.scAppNameSlug;
-              this.scAppScript = props.appScript.length > 0 ? props.appScript : this.scAppNameSlug;
-              this.scAppScriptDir = props.appScriptDir.length > 0 ? props.appScriptDir : 'scripts';
-              this.scAppStyle = props.appStyle.length > 0 ? props.appStyle : this.scAppNameSlug;
-              this.scAppStyleDir = props.appStyleDir.length > 0 ? props.appStyleDir : 'style';
+              this.scAppHTML = 'main.html'; //props.appHTML.length > 0 ? props.appHTML : this.scAppNameSlug;
+              this.scAppScript = 'main.js'; //props.appScript.length > 0 ? props.appScript : this.scAppNameSlug;
+              this.scAppScriptDir = 'scripts'; //props.appScriptDir.length > 0 ? props.appScriptDir : 'scripts';
+              this.scAppStyle = 'main.css'; //props.appStyle.length > 0 ? props.appStyle : this.scAppNameSlug;
+              this.scAppStyleDir = 'styles'; //props.appStyleDir.length > 0 ? props.appStyleDir : 'styles';
 
 
               if(this.scAppHTML.lastIndexOf('.') === -1 || 

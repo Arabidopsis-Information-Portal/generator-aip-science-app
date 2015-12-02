@@ -6,6 +6,6 @@
         /* Remove this if you don't want to print the example */
           var appContext = $('[data-app-name="<%= appslug %>"]');
           AIP.displayDocs(appContext);
-          AIP.displayList(appContext, '<%= appNamespace %>', '<%= appService %>', {});
+          //AIP.displayList(appContext, 'appNamespace', 'appService', {});
     }
   });
