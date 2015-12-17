@@ -54,18 +54,18 @@ var ScienceAppGenerator = yeoman.Base.extend({
               config.scAppName = this.scAppName;
               this.scAppDesc = props.appDesc;
               config.scAppDesc = this.scAppDesc;
-              this.scAppHTML = 'main.html'; 
+              this.scAppHTML = 'main.html';
               config.scAppHTML = this.scAppHTML;
-              this.scAppScript = 'main.js'; 
+              this.scAppScript = 'main.js';
               config.scAppScript = this.scAppScript;
-              this.scAppScriptDir = 'scripts'; 
+              this.scAppScriptDir = 'scripts';
               config.scAppScriptDir = this.scAppScriptDir;
-              this.scAppStyle = 'main.css'; 
+              this.scAppStyle = 'main.css';
               config.scAppStyle = this.scAppStyle;
-              this.scAppStyleDir = 'styles'; 
+              this.scAppStyleDir = 'styles';
               config.scAppStyleDir = this.scAppStyleDir;
 
-              var libraries = props.libraries;
+              var libraries = props.libraries || [];
 
               function includeLib(lib) {
                 return libraries.indexOf(lib) !== -1;

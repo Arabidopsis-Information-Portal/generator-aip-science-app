@@ -43,22 +43,55 @@ var appName = 'testApp';
 var appNameSlug = slugify(appName);
 var appDesc = 'testApp description';
 
+var appConfig = {
+  scAppNameSlug: appNameSlug,
+  scAppName: appName,
+  scAppDesc: appDesc,
+  scAppHTML: 'main.html',
+  scAppScript: 'main.js',
+  scAppScriptDir: 'scripts',
+  scAppStyle: 'main.css',
+  scAppStyleDir: 'styles',
+  includeBioJS: false,
+  includeCytoscape: false,
+  helloWorld: false
+};
+
+var testPath = path.join(__dirname, 'temp');
+
 describe('aip-science-app generator', function () {
-  describe('running the generator', function() {
+  describe('running the default generator', function() {
+
+    it('generates the subConfig', function (done) {
+      var deps = [
+        [helpers.createDummyGenerator(), 'aip-science-app:common']
+      ];
+      var context = helpers.run(path.join( __dirname, '../generators/app'))
+        .withPrompts({
+          'appName': appName,
+          'appDesc': appDesc
+        })
+        .withGenerators(deps)
+        .on('end', function() {
+          assert.equal(appNameSlug, context.generator.subConfig.scAppNameSlug);
+          assert.equal(appName, context.generator.subConfig.scAppName);
+          assert.equal(appDesc, context.generator.subConfig.scAppDesc);
+          done();
+        });
+    });
+  });
+
+  describe('running the common generator', function() {
 
     before(function (done) {
-      var testPath = path.join(__dirname, 'temp');
       helpers.testDirectory(testPath, function (err) {
         if (err) {
           return done(err);
         }
 
-        helpers.run(path.join( __dirname, '../app'))
+        helpers.run(path.join( __dirname, '../generators/common'))
           .inDir(testPath)
-          .withPrompts({
-            'appName': appName,
-            'appDesc': appDesc
-          })
+          .withOptions({subConfig: appConfig})
           .on('end', done);
       });
     });
@@ -80,19 +113,17 @@ describe('aip-science-app generator', function () {
   describe('including libraries', function() {
 
     before(function (done) {
-      var testPath = path.join(__dirname, 'temp');
       helpers.testDirectory(testPath, function (err) {
         if (err) {
           return done(err);
         }
 
-        helpers.run(path.join( __dirname, '../app'))
+        var withLibraryConfig = Object.create(appConfig);
+        withLibraryConfig.includeBioJS = true;
+
+        helpers.run(path.join( __dirname, '../generators/common'))
           .inDir(testPath)
-          .withPrompts({
-            'appName': appName,
-            'appDesc': appDesc,
-            'libraries': ['includeBioJS']
-          })
+          .withOptions({subConfig: withLibraryConfig})
           .on('end', done);
       });
     });
