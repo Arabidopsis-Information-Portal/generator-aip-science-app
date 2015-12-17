@@ -98,7 +98,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
 
             this.prompt(prompts, function (props) {
               this.scAppNameSlug = slugify(props.appName);
-              this.scAppName = 'Science App'; //props.appName.length > 0 ? props.appName : 'Science App';
+              this.scAppName = props.appName.length > 0 ? props.appName : 'Science App';
               this.scAppNameSpace = ''; //props.appNameSpace.length > 0 ? props.appNameSpace : '';
               this.scAppService = ''; //props.appService.length > 0 ? props.appService : '';
               this.scAppDesc = props.appDesc;
@@ -109,25 +109,25 @@ var ScienceAppGenerator = yeoman.Base.extend({
               this.scAppStyleDir = 'styles'; //props.appStyleDir.length > 0 ? props.appStyleDir : 'styles';
 
 
-              if(this.scAppHTML.lastIndexOf('.') === -1 || 
-                  this.scAppHTML.substring(this.scAppHTML.lastIndexOf('.'), 
+              if(this.scAppHTML.lastIndexOf('.') === -1 ||
+                  this.scAppHTML.substring(this.scAppHTML.lastIndexOf('.'),
                   this.scAppHTML.length) !== '.html'){
 
                   this.scAppHTML += '.html';
               }
               if(this.scAppScript.lastIndexOf('.') === -1 ||
-                  this.scAppScript.substring(this.scAppScript.lastIndexOf('.'), 
+                  this.scAppScript.substring(this.scAppScript.lastIndexOf('.'),
                   this.scAppScript.length) !== '.js'){
 
                   this.scAppScript += '.js';
               }
-              if(this.scAppStyle.lastIndexOf('.') === -1 || 
-                  this.scAppStyle.substring(this.scAppStyle.lastIndexOf('.'), 
+              if(this.scAppStyle.lastIndexOf('.') === -1 ||
+                  this.scAppStyle.substring(this.scAppStyle.lastIndexOf('.'),
                   this.scAppStyle.length) !== '.css'){
 
                   this.scAppStyle += '.css';
               }
-              var libraries = props.libraries;
+              var libraries = props.libraries || [];
 
               function includeLib(lib) {
                 return libraries.indexOf(lib) !== -1;
@@ -152,18 +152,18 @@ var ScienceAppGenerator = yeoman.Base.extend({
 
     default: {
         readme: function() {
-            this.fs.copyTpl(this.templatePath('README.md'), 
-                            this.destinationPath('README.md'), 
+            this.fs.copyTpl(this.templatePath('README.md'),
+                            this.destinationPath('README.md'),
                             {appname: this.scAppNameSlug});
         },
 
         gruntfile: function () {
             this.fs.copyTpl(this.templatePath('Gruntfile.js'),
                           this.destinationPath('Gruntfile.js'),
-                          {appname: this.scAppNameSlug, 
+                          {appname: this.scAppNameSlug,
                             app: 'app', dist: 'dist',
                             scriptDir: this.scAppScriptDir,
-                            styleDir: this.scAppStyleDir, 
+                            styleDir: this.scAppStyleDir,
                             appHTML: this.scAppHTML});
         },
 
@@ -173,14 +173,14 @@ var ScienceAppGenerator = yeoman.Base.extend({
                             {appname: this.scAppNameSlug});
         },
         app: function () {
-            this.fs.copyTpl(this.templatePath('app/app.html'), 
+            this.fs.copyTpl(this.templatePath('app/app.html'),
                         this.destinationPath('app/' + this.scAppHTML),
                         {appname: this.scAppNameSlug});
             this.fs.copy(this.templatePath('app/styles/app.css'),
                         this.destinationPath('app/' + this.scAppStyleDir + '/' + this.scAppStyle));
             this.fs.copyTpl(this.templatePath('app/scripts/app.js'),
                         this.destinationPath('app/' + this.scAppScriptDir + '/' + this.scAppScript),
-                        {appname: this.scAppName, 
+                        {appname: this.scAppName,
                         appslug: this.scAppNameSlug,
                         appNamespace: this.scAppNameSpace,
                         appService: this.scAppService});
@@ -189,7 +189,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
         },
 
         testrunner: function() {
-            this.fs.copyTpl(this.templatePath('index.html'), 
+            this.fs.copyTpl(this.templatePath('index.html'),
                             this.destinationPath('index.html'),
                             {appname: this.scAppName });
             this.fs.copy(this.templatePath('lib/*'),
