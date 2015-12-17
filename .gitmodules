@@ -1,0 +1,3 @@
+[submodule "app/templates/lib/resources"]
+	path = app/templates/lib/resources
+	url = https://github.com/Arabidopsis-Information-Portal/araport-agave-docs
