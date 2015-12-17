@@ -18,7 +18,8 @@
     "test": "mocha"
   },
   "files": [
-    "app"
+    "generators/app",
+    "generators/hello-world"
   ],
   "keywords": [
     "yeoman-generator",
