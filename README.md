@@ -134,6 +134,14 @@ and [Bower][bower] for library and dependency management.
 
 ## Release history
 
+#### v0.3.2
+
+- Pin lodash version to 3.x.
+
+#### v0.3.1
+
+- Added Araport App Manifest: `araport-app.json`. Declare your apps assets!
+
 #### v0.2.8
 
 - added exclude rules for wiredep; exclude jQuery, already provided by the test runner environment
