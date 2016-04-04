@@ -73,14 +73,21 @@ var ScienceAppGenerator = yeoman.Base.extend({
     install: {
         araport:function(){
             var araport = {
-                namespace: this.options.subConfig.scAppNameSpace,
-                icon: '',
                 name: this.options.subConfig.scAppName,
                 description: this.options.subConfig.scAppDesc,
+                icon: '',
+                tags: [],
                 html: this.options.subConfig.scAppHTML,
                 scripts: [this.options.subConfig.scAppScriptDir + '/aip-helper.js', this.options.subConfig.scAppScriptDir + '/' + this.options.subConfig.scAppScript],
                 styles: [this.options.subConfig.scAppStyleDir + '/' + this.options.subConfig.scAppStyle]
             };
+            if(this.options.subConfig.scAppNameSpace && this.options.subConfig.scAppNameSpace.length > 0){
+                araport.namespace = this.options.subConfig.scAppNameSpace;
+            }
+            if(this.options.subConfig.scAppService && this.options.subConfig.scAppService.length > 0){
+                araport.service = this.options.subConfig.scAppService;
+            }
+
             this.fs.write(this.destinationPath('araport-app.json'), JSON.stringify(araport, null, 2));
         },
         bower: function () {
