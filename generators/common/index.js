@@ -108,11 +108,6 @@ var ScienceAppGenerator = yeoman.Base.extend({
             }
 
             this.fs.write(this.destinationPath('bower.json'), JSON.stringify(bower, null, 2));
-        },
-        swagger: function(){
-            var swaggerIndex = this.fs.readJSON(this.templatePath('lib/resources/index.json'));
-            swaggerIndex.basePath = '/lib/resources';
-            this.fs.writeJSON(this.destinationPath('lib/resources/index.json'), swaggerIndex, null, 2);
         }
     }
 });
