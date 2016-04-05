@@ -23,10 +23,10 @@ AIP = (function(window, $, undefined) {
       helpDetail.append($('<p>').text(api.description));
       helpDetail.append('<h5>Methods</h5>');
       methods = $('<ul>');
-      $.each(api.help(), function(i, m) {
+      $.each(api.operationsArray, function(i, m) {
         methodDetail = $('<li>');
-        methodDetail.append('<strong>' + m + '</strong>');
-        var details = api[m.trim()].help();
+        methodDetail.append('<strong>' + m.nickname + '</strong>');
+        var details = m.help();
         if (details) {
           methodDetail.append('<br>').append('Parameters');
           methodDetail.append('<p style="white-space:pre-line;">' + details + '</p>');

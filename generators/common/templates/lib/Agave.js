@@ -1,5 +1,5 @@
-/*globals jQuery, SwaggerApi, authorizations, PasswordAuthorization, ApiKeyAuthorization*/
-(function( window, $, SwaggerApi, authorizations, PasswordAuthorization, ApiKeyAuthorization, undefined ) {
+/*globals jQuery, SwaggerClient*/
+(function( window, $, SwaggerApi, undefined ) {
   'use strict';
   var Agave = window.Agave = {};
 
@@ -109,10 +109,13 @@
   Agave.createClient = function( username, password, appName ) {
     var deferred = $.Deferred();
 
-    authorizations.add( 'Authorization', new PasswordAuthorization( 'Authorization', username, password ) );
+    //authorizations.add( 'Authorization', new PasswordAuthorization( 'Authorization', username, password ) );
     var clientApi = new SwaggerApi({
-      url: '//' + window.location.host + '/lib/resources/index.json',
+      url: '//' + window.location.host + '/lib/resources/agaveapi.json',
       useJQuery: true,
+      authorizations: {
+          'Authorization': new SwaggerApi.PasswordAuthorization( 'Authorization', username, password )
+      },
       success: function() {
         if ( clientApi.ready === true ) {
 
@@ -148,10 +151,13 @@
     var deferred = $.Deferred();
 
     if (Agave.client && Agave.token) {
-      authorizations.add( 'Authorization', new ApiKeyAuthorization( 'Authorization', 'Bearer ' + Agave.token.accessToken, 'header' ) );
+      //authorizations.add( 'Authorization', new ApiKeyAuthorization( 'Authorization', 'Bearer ' + Agave.token.accessToken, 'header' ) );
       Agave.api = new SwaggerApi({
-        url: '//' + window.location.host + '/lib/resources/index.json',
+        url: '//' + window.location.host + '/lib/resources/agaveapi.json',
         useJQuery: true,
+        authorizations: {
+            'Authorization': new SwaggerApi.ApiKeyAuthorization( 'Authorization', 'Bearer ' + Agave.token.accessToken, 'header' )
+        },
         success: function() {
           if ( Agave.api.ready === true ) {
             deferred.resolve( Agave );
@@ -176,7 +182,7 @@
     Agave.api = null;
     Agave.token = null;
     Agave.client = null;
-    authorizations.remove( 'Authorization' );
+    //authorizations.remove( 'Authorization' );
     if ( stored ) {
       window.localStorage.removeItem( 'Agave.token' );
       window.localStorage.removeItem( 'Agave.client' );
@@ -184,4 +190,4 @@
   };
 
   return Agave;
-})( window, jQuery, SwaggerApi, authorizations, PasswordAuthorization, ApiKeyAuthorization );
+})( window, jQuery, SwaggerClient );
