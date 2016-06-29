@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
       js: {
-        files: ['<%%= config.app %>/<%= scriptDir %>/{,*/}*.js'],
+        files: ['<%= app %>/<%= scriptDir %>/{,*/}*.js'],
         tasks: ['jshint'],
         options: {
           livereload: true
@@ -39,14 +39,14 @@ module.exports = function(grunt) {
         files: [
           'index.html',
           'lib/*.*',
-          '<%%= config.app %>/{,*/}*.html',
-          '<%%= config.app %>/images/{,*/}*',
-          '<%%= config.app %>/<%= styleDir %>/{,*/}*.css',
+          '<%= app %>/{,*/}*.html',
+          '<%= app %>/images/{,*/}*',
+          '<%= app %>/<%= styleDir %>/{,*/}*.css',
           '.tmp/styles/{,*/}*.css'
         ],
         tasks: ['includes'],
         options: {
-          livereload: '<%%= connect.options.livereload %>'
+          livereload: 35729
         }
       }
     },
@@ -54,11 +54,11 @@ module.exports = function(grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9000,
+        port: 8080,
         open: true,
         livereload: 35729,
         // Change this to '0.0.0.0' to access the server from outside
-        hostname: 'localhost'
+        hostname: '0.0.0.0'
       },
       dist: {
         options: {
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           dot: true,
-          src: ['.tmp', '<%%= config.dist %>/*', '!<%%= config.dist %>/.git*']
+          src: ['.tmp', '<%= dist %>/*', '!<%= dist %>/.git*']
         }]
       }
     },
@@ -107,13 +107,14 @@ module.exports = function(grunt) {
     jshint: {
       options: {
         jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
+        reporter: require('jshint-stylish'),
+        reporterOutput: ''
       },
       all: [
         'Gruntfile.js',
         'lib/*.js',
-        '<%%= config.app %>/<%= scriptDir %>/{,*/}*.js',
-        '!<%%= config.app %>/<%= scriptDir %>/vendor/*',
+        '<%= app %>/<%= scriptDir %>/{,*/}*.js',
+        '!<%= app %>/<%= scriptDir %>/vendor/*',
         'test/spec/{,*/}*.js'
       ]
     },
@@ -161,9 +162,9 @@ module.exports = function(grunt) {
     copy: {
       libraries: {
         expand: true,
-        cwd: '<%%= config.app %>/vendor',
+        cwd: '<%= app %>/vendor',
         src: '**',
-        dest: '.tmp/sites/all/libraries/<%%= config.appName %>/'
+        dest: '.tmp/sites/all/libraries/<%= appname %>/'
       }
     },
 
