@@ -1,3 +1,0 @@
-[submodule "generators/common/templates/lib/resources"]
-	path = generators/common/templates/lib/resources
-	url = https://github.com/Arabidopsis-Information-Portal/araport-agave-spec.git

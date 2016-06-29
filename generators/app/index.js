@@ -8,7 +8,6 @@ var ScienceAppGenerator = yeoman.Base.extend({
 
     initializing:{
         init: function(){
-            this.sourceRoot(this.sourceRoot() + '/../../common/templates');
             this.pkg = require('../../package.json');
         }
     },
