@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 
     // The actual grunt server settings
     connect: {
-      icloud9: {
+      cloud9: {
         options: {
           port: 8080,
           open: true,
@@ -339,7 +339,7 @@ module.exports = function(grunt) {
         'connect:dist:keepalive'
       ]);
     }
-    else if (target === 'icloud9') {
+    else if (target === 'cloud9') {
       return grunt.task.run([
         'clean:server',
         'jshint',
@@ -348,7 +348,7 @@ module.exports = function(grunt) {
         'wiredep',
         'includes',
         'copy',
-        'connect:icloud9',
+        'connect:cloud9',
         'watch'
       ]);
     }
