@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         ],
         tasks: ['includes'],
         options: {
-          livereload: 35729
+          livereload: 8081
         }
       }
     },
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
       options: {
         port: 8080,
         open: true,
-        livereload: 35729,
+        livereload: 8081,
         // Change this to '0.0.0.0' to access the server from outside
         hostname: '0.0.0.0'
       },
