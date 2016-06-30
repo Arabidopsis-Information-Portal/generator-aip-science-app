@@ -1,8 +1,8 @@
 /*global describe, beforeEach, it */
 'use strict';
 var path = require('path');
-var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
+var assert = require('yeoman-assert');
+var helpers = require('yeoman-test');
 var slugify = require('underscore.string/slugify');
 
 var expectedFiles = [
@@ -31,49 +31,18 @@ var expectedFiles = [
   '.jshintrc'
 ];
 
-var appName = 'testApp';
-var appNameSlug = slugify(appName);
-var appDesc = 'testApp description';
-
-var appConfig = {
-  scAppNameSlug: appNameSlug,
-  scAppName: appName,
-  scAppDesc: appDesc,
-  scAppHTML: 'main.html',
-  scAppScript: 'main.js',
-  scAppScriptDir: 'scripts',
-  scAppStyle: 'main.css',
-  scAppStyleDir: 'styles',
-  includeBioJS: false,
-  includeCytoscape: false,
-  helloWorld: false
-};
-
+var appName = 'Test App';
+var appNameSlug = 'test-app';
+var appDesc = 'TestApp Description';
+var prompts = {
+            'appName': appName,
+            'appDesc': appDesc
+        };
 var testPath = path.join(__dirname, 'temp');
 
 describe('aip-science-app generator', function () {
-  describe('running the default generator', function() {
 
-    it('generates the subConfig', function (done) {
-      var deps = [
-        [helpers.createDummyGenerator(), 'aip-science-app:common']
-      ];
-      var context = helpers.run(path.join( __dirname, '../generators/app'))
-        .withPrompts({
-          'appName': appName,
-          'appDesc': appDesc
-        })
-        .withGenerators(deps)
-        .on('end', function() {
-          assert.equal(appNameSlug, context.generator.subConfig.scAppNameSlug);
-          assert.equal(appName, context.generator.subConfig.scAppName);
-          assert.equal(appDesc, context.generator.subConfig.scAppDesc);
-          done();
-        });
-    });
-  });
-
-  describe('running the common generator', function() {
+  describe('running the app generator', function() {
 
     before(function (done) {
       helpers.testDirectory(testPath, function (err) {
@@ -81,9 +50,9 @@ describe('aip-science-app generator', function () {
           return done(err);
         }
 
-        helpers.run(path.join( __dirname, '../generators/common'))
+        helpers.run(path.join( __dirname, '../generators/app'))
           .inDir(testPath)
-          .withOptions({subConfig: appConfig})
+          .withPrompts(prompts)
           .on('end', done);
       });
     });
@@ -110,12 +79,11 @@ describe('aip-science-app generator', function () {
           return done(err);
         }
 
-        var withLibraryConfig = Object.create(appConfig);
-        withLibraryConfig.includeBioJS = true;
-
-        helpers.run(path.join( __dirname, '../generators/common'))
+        var withLibraryPrompts = Object.create(prompts);
+        withLibraryPrompts.libraries = ['includeBioJS'];
+        helpers.run(path.join( __dirname, '../generators/app'))
           .inDir(testPath)
-          .withOptions({subConfig: withLibraryConfig})
+          .withPrompts(withLibraryPrompts)
           .on('end', done);
       });
     });

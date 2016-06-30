@@ -54,7 +54,6 @@ var ScienceAppGenerator = yeoman.Base.extend({
           config.scAppScriptDir = 'scripts';
           config.scAppStyle = 'main.css';
           config.scAppStyleDir = 'styles';
-          config.scAppStyleDir = this.scAppStyleDir;
 
           var libraries = props.libraries || [];
 
