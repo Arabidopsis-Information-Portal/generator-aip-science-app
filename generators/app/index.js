@@ -79,18 +79,18 @@ var ScienceAppGenerator = yeoman.Base.extend({
         },
 
         readme: function() {
-            this.fs.copyTpl(this.templatePath('README.md'), 
-                            this.destinationPath('README.md'), 
+            this.fs.copyTpl(this.templatePath('README.md'),
+                            this.destinationPath('README.md'),
                             {appname: this.config.scAppNameSlug});
         },
 
         gruntfile: function () {
             this.fs.copyTpl(this.templatePath('Gruntfile.js'),
                           this.destinationPath('Gruntfile.js'),
-                          {appname: this.config.scAppNameSlug, 
+                          {appname: this.config.scAppNameSlug,
                             app: 'app', dist: 'dist',
                             scriptDir: this.config.scAppScriptDir,
-                            styleDir: this.config.scAppStyleDir, 
+                            styleDir: this.config.scAppStyleDir,
                             appHTML: this.config.scAppHTML});
         },
 
@@ -100,7 +100,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
                             {appname: this.config.scAppNameSlug});
         },
         app: function () {
-            this.fs.copyTpl(this.templatePath('app/app.html'), 
+            this.fs.copyTpl(this.templatePath('app/app.html'),
                         this.destinationPath('app/' + this.config.scAppHTML),
                         {appname: this.config.scAppNameSlug});
             this.fs.copy(this.templatePath('app/styles/app.css'),
@@ -108,7 +108,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
             var example = this.config.helloWorld ? 'AIP.displayList(appContext, \'' + this.config.scAppNameSpace + '\', \'' + this.config.scAppService + '\', {});' : '';
             this.fs.copyTpl(this.templatePath('app/scripts/app.js'),
                         this.destinationPath('app/' + this.config.scAppScriptDir + '/' + this.config.scAppScript),
-                        {appname: this.config.scAppName, 
+                        {appname: this.config.scAppName,
                         appslug: this.config.scAppNameSlug,
                         example: example});
             this.fs.copy(this.templatePath('app/scripts/aip-helper.js'),
@@ -116,7 +116,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
         },
 
         testrunner: function() {
-            this.fs.copyTpl(this.templatePath('index.html'), 
+            this.fs.copyTpl(this.templatePath('index.html'),
                             this.destinationPath('index.html'),
                             {appname: this.config.scAppName });
             this.fs.copy(this.templatePath('lib/*'),
@@ -136,6 +136,7 @@ var ScienceAppGenerator = yeoman.Base.extend({
                 description: this.config.scAppDesc,
                 icon: '',
                 tags: [],
+                fullscreen: 'default',
                 html: this.config.scAppHTML,
                 scripts: [this.config.scAppScriptDir + '/aip-helper.js', this.config.scAppScriptDir + '/' + this.config.scAppScript],
                 styles: [this.config.scAppStyleDir + '/' + this.config.scAppStyle]
